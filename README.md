@@ -9,6 +9,22 @@ Simple HTTP file transfer service with ngrok integration - like transfer.sh.
 
 ### Using Pre-built Image (Recommended)
 
+**Option 1: Using .env file (Easier)**
+
+```bash
+# Create .env file with your token
+echo "NGROK_AUTHTOKEN=your_token_here" > .env
+
+# Run with --env-file
+docker run -it --rm \
+  -p 8080:8080 -p 4040:4040 \
+  -v $(pwd)/data:/data \
+  --env-file .env \
+  ghcr.io/toanalien/ngrokcurl:latest
+```
+
+**Option 2: Direct command**
+
 ```bash
 docker run -it --rm \
   -p 8080:8080 -p 4040:4040 \
@@ -84,12 +100,17 @@ When downloading, the original filename is automatically restored.
 
 ## Run in Background
 
+**With .env file:**
 ```bash
+# Create .env file first
+echo "NGROK_AUTHTOKEN=your_token" > .env
+
+# Run in background
 docker run -d \
   -p 8080:8080 -p 4040:4040 \
   -v $(pwd)/data:/data \
   --name file-transfer \
-  -e NGROK_AUTHTOKEN=your_token \
+  --env-file .env \
   ghcr.io/toanalien/ngrokcurl:latest
 
 # View logs to get URL
@@ -97,6 +118,16 @@ docker logs file-transfer
 
 # Stop
 docker stop file-transfer && docker rm file-transfer
+```
+
+**Or with direct env var:**
+```bash
+docker run -d \
+  -p 8080:8080 -p 4040:4040 \
+  -v $(pwd)/data:/data \
+  --name file-transfer \
+  -e NGROK_AUTHTOKEN=your_token \
+  ghcr.io/toanalien/ngrokcurl:latest
 ```
 
 ## Without Docker
@@ -131,6 +162,22 @@ ngrok http 8080 --authtoken your_token
 Environment variables:
 - `NGROK_AUTHTOKEN` - Required for ngrok
 - Files stored in `/data` inside container
+
+## Installing curl in Docker Images
+
+If your Docker image doesn't have `curl` installed, add these commands to your Dockerfile:
+
+| Base Image | Package Manager | Command |
+|------------|----------------|---------|
+| **Debian/Ubuntu** | apt-get | `RUN apt-get update && apt-get install -y curl && apt-get clean && rm -rf /var/lib/apt/lists/*` |
+| **Alpine Linux** | apk | `RUN apk update && apk add --no-cache curl` |
+| **CentOS/RHEL** | yum | `RUN yum update -y && yum install -y curl && yum clean all` |
+| **Fedora** | dnf | `RUN dnf update -y && dnf install -y curl && dnf clean all` |
+
+**Quick check if curl exists:**
+```bash
+docker run --rm <image> curl --version
+```
 
 ## Notes
 
