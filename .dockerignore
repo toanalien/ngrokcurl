@@ -1,0 +1,38 @@
+# Ignore uploads directory contents
+uploads/*
+!uploads/.gitkeep
+
+# Ignore environment files
+.env
+.env.*
+!.env.example
+
+# Ignore git files
+.git
+.gitignore
+
+# Ignore documentation
+README.md
+*.md
+
+# Ignore IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Ignore build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+file-transfer
+
+# Ignore test files
+*_test.go
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
