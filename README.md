@@ -173,6 +173,7 @@ If your Docker image doesn't have `curl` installed, add these commands to your D
 | **Alpine Linux** | apk | `RUN apk update && apk add --no-cache curl` |
 | **CentOS/RHEL** | yum | `RUN yum update -y && yum install -y curl && yum clean all` |
 | **Fedora** | dnf | `RUN dnf update -y && dnf install -y curl && dnf clean all` |
+| **FreeBSD** | pkg | `RUN pkg update && pkg install -y curl` |
 
 **Quick check if curl exists:**
 ```bash
