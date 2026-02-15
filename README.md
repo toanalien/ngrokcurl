@@ -1,27 +1,43 @@
 # File Transfer Service
 
+[![Docker Build](https://github.com/toanalien/ngrokcurl/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/toanalien/ngrokcurl/actions/workflows/docker-publish.yml)
+[![Docker Image](https://img.shields.io/badge/docker-ghcr.io-blue)](https://github.com/toanalien/ngrokcurl/pkgs/container/ngrokcurl)
+
 Simple HTTP file transfer service with ngrok integration - like transfer.sh.
 
 ## Quick Start
 
-### 1. Build
+### Using Pre-built Image (Recommended)
+
 ```bash
-docker build -t file-transfer .
+docker run -it --rm \
+  -p 8080:8080 -p 4040:4040 \
+  -v $(pwd)/data:/data \
+  -e NGROK_AUTHTOKEN=your_token_here \
+  ghcr.io/toanalien/ngrokcurl:latest
 ```
 
-### 2. Get Ngrok Token
-Get your free token: https://dashboard.ngrok.com/get-started/your-authtoken
+Get your free ngrok token: https://dashboard.ngrok.com/get-started/your-authtoken
 
-### 3. Run
+The public URL will be displayed automatically!
+
+### Build from Source
+
 ```bash
+# Clone repository
+git clone https://github.com/toanalien/ngrokcurl.git
+cd ngrokcurl
+
+# Build image
+docker build -t file-transfer .
+
+# Run
 docker run -it --rm \
   -p 8080:8080 -p 4040:4040 \
   -v $(pwd)/data:/data \
   -e NGROK_AUTHTOKEN=your_token_here \
   file-transfer
 ```
-
-The public URL will be displayed automatically!
 
 ## Usage
 
@@ -74,7 +90,7 @@ docker run -d \
   -v $(pwd)/data:/data \
   -e NGROK_AUTHTOKEN=your_token \
   --name file-transfer \
-  file-transfer
+  ghcr.io/toanalien/ngrokcurl:latest
 
 # View logs to get URL
 docker logs file-transfer
