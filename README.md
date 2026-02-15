@@ -13,8 +13,8 @@ Simple HTTP file transfer service with ngrok integration - like transfer.sh.
 docker run -it --rm \
   -p 8080:8080 -p 4040:4040 \
   -v $(pwd)/data:/data \
-  -e NGROK_AUTHTOKEN=your_token_here \
-  ghcr.io/toanalien/ngrokcurl:latest
+  ghcr.io/toanalien/ngrokcurl:latest \
+  -e NGROK_AUTHTOKEN=your_token_here
 ```
 
 Get your free ngrok token: https://dashboard.ngrok.com/get-started/your-authtoken
@@ -35,8 +35,8 @@ docker build -t file-transfer .
 docker run -it --rm \
   -p 8080:8080 -p 4040:4040 \
   -v $(pwd)/data:/data \
-  -e NGROK_AUTHTOKEN=your_token_here \
-  file-transfer
+  file-transfer \
+  -e NGROK_AUTHTOKEN=your_token_here
 ```
 
 ## Usage
@@ -88,9 +88,9 @@ When downloading, the original filename is automatically restored.
 docker run -d \
   -p 8080:8080 -p 4040:4040 \
   -v $(pwd)/data:/data \
-  -e NGROK_AUTHTOKEN=your_token \
   --name file-transfer \
-  ghcr.io/toanalien/ngrokcurl:latest
+  ghcr.io/toanalien/ngrokcurl:latest \
+  -e NGROK_AUTHTOKEN=your_token
 
 # View logs to get URL
 docker logs file-transfer
